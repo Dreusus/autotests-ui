@@ -1,54 +1,24 @@
-from playwright.sync_api import sync_playwright, Locator, expect
+from playwright.sync_api import sync_playwright, expect
 
+with sync_playwright() as playwright:
+    browser = playwright.chromium.launch(headless=False)
+    context = browser.new_context()
+    page = context.new_page()
 
-class Playwright:
-    def __init__(self):
-        self.playwright = sync_playwright().start()
-        self.browser = self.playwright.chromium.launch(headless=False)
-        self.page = self.browser.new_page()
+    page.goto('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration')
 
-    registration_url = 'https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration'
-    timeout = 2000
-    _s_email = '//input[@id=":r0:"]'
-    _s_user_name = '//input[@id=":r1:"]'
-    _s_password = '//input[@id=":r2:"]'
-    _s_button_registration = 'registration-page-registration-button'
-    _s_title_dashboard = 'dashboard-toolbar-title-text'
+    registration_email_input = page.get_by_test_id('registration-form-email-input').locator('input')
+    registration_email_input.fill('user.name@gmail.com')
 
-    def registration(self) -> None:
-        self.page.goto(self.registration_url)
-        self._fill_registration_form()
-        self._click_registration_button()
-        self._assert_title_text()
+    registration_username_input = page.get_by_test_id('registration-form-username-input').locator('input')
+    registration_username_input.fill('username')
 
-    def get_locator(self, selector: str) -> Locator:
-        return self.page.locator(selector)
+    registration_password_input = page.get_by_test_id('registration-form-password-input').locator('input')
+    registration_password_input.fill('password')
 
-    def get_locator_by_test_id(self, test_id: str) -> Locator:
-        return self.page.get_by_test_id(test_id)
+    registration_button = page.get_by_test_id('registration-page-registration-button')
+    registration_button.click()
 
-    def close(self) -> None:
-        self.browser.close()
-        self.playwright.stop()
-
-    def _fill_registration_form(self) -> None:
-        self.get_locator(self._s_email).fill('user.name@gmail.com')
-        self.get_locator(self._s_user_name).fill('username')
-        self.get_locator(self._s_password).fill('password')
-
-    def _click_registration_button(self) -> None:
-        button = self.get_locator_by_test_id(self._s_button_registration)
-        button.wait_for(state='visible', timeout=self.timeout)
-        button.click()
-
-    def _assert_title_text(self) -> None:
-        title = self.get_locator_by_test_id(self._s_title_dashboard)
-        expect(title).to_have_text('Dashboard')
-
-
-if __name__ == "__main__":
-    app = Playwright()
-    try:
-        app.registration()
-    finally:
-        app.close()
+    dashboard_page_title = page.get_by_test_id('dashboard-toolbar-title-text')
+    expect(dashboard_page_title).to_be_visible()
+    expect(dashboard_page_title).to_have_text('Dashboard')
