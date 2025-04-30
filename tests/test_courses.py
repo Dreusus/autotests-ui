@@ -1,5 +1,4 @@
 import pytest
-from playwright.sync_api import Page, expect
 
 from pages.courses_list_page import CoursesListPage
 from pages.create_course_page import CreateCoursePage
@@ -35,7 +34,7 @@ def test_create_course(courses_list_page: CoursesListPage, create_course_page: C
 
     courses_list_page.check_visible_courses_title()
     courses_list_page.check_visible_create_course_button()
-    courses_list_page.check_visible_course_card(index=0,
+    courses_list_page.course_view.check_visible(index=0,
                                                 title="Playwright",
                                                 max_score="100",
                                                 min_score="10",
