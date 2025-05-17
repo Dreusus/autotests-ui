@@ -9,11 +9,11 @@ class CreateCourseFormComponent(BaseComponent):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        self.title_input = Input(page,'create-course-form-title-input','Title')
-        self.estimated_time_input = Input(page,'create-course-form-estimated-time-input','Estimated Time')
-        self.description_textarea = Textarea(page,'create-course-form-description-input','Description')
-        self.max_score_input = Input(page,'create-course-form-max-score-input','Max Score')
-        self.min_score_input = Input(page,'create-course-form-min-score-input','Min Score')
+        self.title_input = Input(page, 'create-course-form-title-input', 'Title')
+        self.estimated_time_input = Input(page, 'create-course-form-estimated-time-input', 'Estimated Time')
+        self.description_textarea = Textarea(page, 'create-course-form-description-input', 'Description')
+        self.max_score_input = Input(page, 'create-course-form-max-score-input', 'Max Score')
+        self.min_score_input = Input(page, 'create-course-form-min-score-input', 'Min Score')
 
     def check_visible(self, title: str, estimated_time: str, description: str, max_score: str, min_score: str):
         self.title_input.check_visible()
