@@ -60,5 +60,4 @@ class Settings(BaseSettings):
             allure_results_dir=allure_results_dir
         )
 
-
 settings = Settings.initialize()
