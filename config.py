@@ -22,11 +22,10 @@ class TestData(BaseModel):
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(
+    model_config = SettingsConfigDict(extra="allow",
         env_file=".env",
         env_file_encoding="utf-8",
-        env_nested_delimiter=".",
-    )
+        env_nested_delimiter=".", )
 
     app_url: HttpUrl
     headless: bool
@@ -53,12 +52,10 @@ class Settings(BaseSettings):
         browser_state_file.touch(exist_ok=True)
         allure_results_dir.mkdir(exist_ok=True)
 
-        return Settings(
-            videos_dir=videos_dir,
+        return Settings(videos_dir=videos_dir,
             tracing_dir=tracing_dir,
             browser_state_file=browser_state_file,
-            allure_results_dir=allure_results_dir
-        )
+            allure_results_dir=allure_results_dir)
 
 
 settings = Settings.initialize()
